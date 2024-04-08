@@ -3,7 +3,7 @@ const KiteConnect = require("kiteconnect").KiteConnect;
 const KiteTicker = require("kiteconnect").KiteTicker;
 const { getToken } = require("../dbQueries/fetchRecord");
 const { createStockListTable } = require('../dbQueries/CreateTable');
-const apiKey = process.env.API_KEY;
+const apiKey = "pftgv0hek092gn0d";
 let accessToken;
 let ticker;
 
