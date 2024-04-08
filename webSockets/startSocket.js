@@ -1,8 +1,9 @@
 require('dotenv').config();
 const KiteConnect = require("kiteconnect").KiteConnect;
 const KiteTicker = require("kiteconnect").KiteTicker;
-const { getToken } = require("../dbQueries/fetchRecord");
+const { getToken, getTradesData } = require("../dbQueries/fetchRecord");
 const { createStockListTable } = require('../dbQueries/CreateTable');
+const { updateTrades } = require('../dbQueries/updateRecord');
 const apiKey = "pftgv0hek092gn0d";
 let accessToken;
 let ticker;
@@ -55,7 +56,8 @@ const startWebSocket = () => {
 };
 
 const onTicks = (ticks) => {
-    console.log("Ticks", ticks);
+    updateTrades(ticks)
+    // console.log("Ticks ", ticks);
 };
 
 const subscribe = async () => {
@@ -82,15 +84,14 @@ const subscribe = async () => {
                 nameArray.includes(instrument.name)
         );
 
-        // console.log(mcxInstruments);
-        const mcxInstrumentTokens = mcxInstruments.map(
-            (instrument) => instrument.instrument_token
-        );
         await createStockListTable(mcxInstruments);
-        // console.log("instruements tokens", mcxInstrumentTokens);
-        if (mcxInstrumentTokens.length > 0) {
-            for (let i = 0; i < mcxInstrumentTokens.length; i++) {
-                let element = Number(mcxInstrumentTokens[i]);
+
+        const tokens = await getTradesData();
+
+        if (tokens.length > 0) {
+            for (let i = 0; i < tokens.length; i++) {
+                // console.log("ttttt", tokens[i].token)
+                let element = Number(tokens[i].token);
                 ticker.subscribe([element]);
                 ticker.setMode(ticker.modeFull, element);
             }

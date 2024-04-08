@@ -36,7 +36,7 @@ app.post('/api/store-access-token', async (req, res) => {
     }
 });
 
-// startWebSocketData();
+startWebSocketData();
 
 app.get('/api/get-stock-list', async (req, res) => {
     try {

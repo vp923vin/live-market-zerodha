@@ -31,7 +31,20 @@ const getAllInstrumentsData = async () => {
     }
 }
 
+
+const getTradesData = async () => {
+    try {
+        const query = `SELECT token FROM trades`;
+        const result = await pool.query(query);
+        return result[0];
+    } catch (error) {
+        console.error('Error fetching token:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     getToken,
-    getAllInstrumentsData
+    getAllInstrumentsData,
+    getTradesData
 }
