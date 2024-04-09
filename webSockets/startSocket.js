@@ -57,7 +57,7 @@ const startWebSocket = () => {
 
 const onTicks = (ticks) => {
     updateTrades(ticks)
-    // console.log("Ticks ", ticks);
+    console.log("Ticks ", ticks);
 };
 
 const subscribe = async () => {
