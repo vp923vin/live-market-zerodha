@@ -39,6 +39,15 @@ app.post('/api/store-access-token', async (req, res) => {
 });
 
 // startWebSocketData();
+app.get('/api/restart-socket', async (req, res) => {
+    try {
+        startWebSocketData();
+        res.status(200).json({message: "Socket Started"});
+    } catch (error) {
+        console.error('Error fetching stock list:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 app.get('/api/get-stock-list', async (req, res) => {
     try {

@@ -36,12 +36,13 @@ const startWebSocket = () => {
         console.error("Ticker is not initialized");
         return;
     }
-
+    
     ticker.connect();
     ticker.on("ticks", onTicks);
     ticker.on("connect", subscribe);
     ticker.on("noreconnect", () => console.log("noreconnect"));
     ticker.on("reconnecting", (reconnect_interval, reconnections) => {
+        startWebSocketData();
         console.log(
             "Reconnecting: attempt - ",
             reconnections,
@@ -50,9 +51,10 @@ const startWebSocket = () => {
         );
     });
     ticker.on("error", (error) => console.error("WebSocket error:", error));
-    ticker.on("disconnect", (event) =>
+    ticker.on("disconnect", (event) => {
+        startWebSocketData();
         console.log("WebSocket disconnected:", event)
-    );
+    });
 };
 
 const onTicks = (ticks) => {
@@ -104,7 +106,7 @@ const subscribe = async () => {
 };
 
 // Initialize ticker and start WebSocket
-const startWebSocketData = () => { initializeTicker().then(startWebSocket).catch((error) => {
+function startWebSocketData() { initializeTicker().then(startWebSocket).catch((error) => {
     console.error("Error initializing WebSocket:", error);
 })};
 
