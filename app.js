@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const { startWebSocketData } = require('./webSockets/startSocket');
 const { createAccessTokenTable } = require('./dbQueries/CreateTable');
 const { getAllInstrumentsData } = require('./dbQueries/fetchRecord');
@@ -10,6 +11,7 @@ const base_uri = process.env.APP_BASE_URI;
 const app_name = process.env.APP_NAME;
 
 app.use(bodyParser.json());
+app.use(cors());
 // Start the WebSocket connection
 
 // createStockListTable();
